@@ -1,2 +1,6 @@
-# Ignore old implementations
+# Ignore obsolete implementations
 unionDictionary.cpp
+
+# Ignore obsolete files
+dictionary2.txt
+unionDictionary.txt

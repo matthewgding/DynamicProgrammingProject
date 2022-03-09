@@ -27,7 +27,9 @@ void createUnionTrie(trieNode *root) {
     int lineCount = 0, value;
     if (smallDict.is_open()) {
         while (getline(smallDict, line)) {
-            if (lineCount % 2 == 0) {
+            if (line[0] == '#') {
+                continue;
+            } else if (lineCount % 2 == 0) {
                 // Get the ranking when a lowercase word is being evaluated
                 value = trieNode::getValue(bigTrie, line);
                 trieNode::insert(root, line, value);

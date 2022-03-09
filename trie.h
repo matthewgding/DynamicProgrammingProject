@@ -9,10 +9,12 @@ class trieNode {
 public:
     // trieNode variables
     bool isEndOfWord;
+    int valueOfWord;
     unordered_map<char, trieNode *> map;
 
     //trieNode functions
     static trieNode *newTrieNode();
-    static void insert(trieNode *&root, const string &str);
+    static void insert(trieNode *&root, const string &str, const int &value);
     static bool search(trieNode *root, const string &str);
+    static int getValue(trieNode *root, const string &str);
 };

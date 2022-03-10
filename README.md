@@ -8,7 +8,7 @@ The goal of the project was to consider a situation where a file compression fai
 **Please read .gitignore for obsolete files**  
 **dictionary.txt** contains an unsorted list of the top 100000 English words with rankings included  
 **dictionary3.txt** contains an unsorted list of the top 20000 English words (both in lowercase and uppercase) without rankings  
-**trie.h** and **trie.cpp** are the header file and C++ source file that provide the implementation of a trie class for holding words and their rankings
-**unionTrie.cpp** is the C++ source file that provides the methods used to to create a trie of valid words and their associated values based on the contents of dictionary.txt and dictionary3.txt
+**trie.h** and **trie.cpp** are the header file and C++ source file that provide the implementation of a trie class for holding words and their rankings  
+**unionTrie.cpp** is the C++ source file that provides the methods used to to create a trie of valid words and their associated values based on the contents of dictionary.txt and dictionary3.txt  
 **mergeSort.cpp** is the C++ source file that provides the methods used to sort the generated possible original documents by their likelihoods  
 **main.cpp** is the C++ source file that provides the method to generate all possible original documents and runs the program that performs the generation, ranking, and sorting of all possible original documents  

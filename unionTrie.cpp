@@ -1,4 +1,4 @@
-/* Updated by Matthew Ding on 3/8/2022.
+/* Updated by Matthew Ding on 3/10/2022.
  * This file provides the methods that are needed to create a trie of valid words with ranks.
  * This file replaces the functionality of unionDictionary.cpp */
 
@@ -20,7 +20,7 @@ void createUnionTrie(trieNode *root) {
     ifstream smallDict;
     smallDict.open("dictionary3.txt");
 
-    cout << "Creating a dictionary trie of valid words with rankings..." << endl;
+    cout << "Creating a dictionary trie of valid words with rankings...\n";
     // Traverse through each line (starting at 0) of the unranked dictionary
     // Even numbered lines are lowercase, and odd numbered lines are uppercase
     string line;
@@ -30,6 +30,11 @@ void createUnionTrie(trieNode *root) {
             if (line[0] == '#') {
                 continue;
             } else if (lineCount % 2 == 0) {
+                // Skip single characters except for I, A, a
+                if (line.length() == 1 && line != "I" && line != "a") {
+                    lineCount += 2;
+                    continue;
+                }
                 // Get the ranking when a lowercase word is being evaluated
                 value = trieNode::getValue(bigTrie, line);
                 trieNode::insert(root, line, value);
@@ -40,10 +45,12 @@ void createUnionTrie(trieNode *root) {
                 lineCount++;
             }
         }
+        smallDict.close();
     } else {
-        cout << "The valid dictionary file could not be opened." << endl;
+        cout << "The valid dictionary file could not be opened.\n";
+        return;
     }
-    cout << "Successfully created a dictionary trie of valid words with rankings!";
+    cout << "Successfully created a dictionary trie of valid words with rankings!\n";
 }
 
 // fillBigTrie(): Opens the ranked dictionary and creates a trie with all its words
@@ -70,7 +77,8 @@ void fillBigTrie(trieNode *root) {
                 trieNode::insert(root, line, value);
             }
         }
+        bigDict.close();
     } else {
-        cout << "The ranked dictionary file could not be opened." << endl;
+        cout << "The ranked dictionary file could not be opened.\n";
     }
 }

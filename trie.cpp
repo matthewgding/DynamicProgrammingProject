@@ -1,4 +1,4 @@
-/* Updated by Matthew Ding on 3/8/2022.
+/* Updated by Matthew Ding on 3/10/2022.
  * This implementation has been adapted from the implementation found from Techie Delight.
  * https://www.techiedelight.com/memory-efficient-trie-implementation-using-map-insert-search-delete/ */
 
@@ -9,7 +9,7 @@ using namespace std;
 // Output: An empty trie node
 trieNode *trieNode::newTrieNode() {
     auto *node = new trieNode;
-    node->isEndOfWord = false;
+    node->isEndOfWord = 0;
     node->valueOfWord = 0;
     return node;
 }
@@ -35,17 +35,22 @@ void trieNode::insert(trieNode *&root, const string &str, const int &value = 0) 
     }
 
     // Mark the last node as the end of the word being inserted
-    current->isEndOfWord = true;
+    current->isEndOfWord = 1;
     current->valueOfWord = value;
 }
 
 // search(): Iterative function to search for a string in a trie
 // Inputs: The root node of the trie to search in, char pointer to string to find
 // Output: A boolean value (true if successful, false if unsuccessful)
-bool trieNode::search(trieNode *root, const string &str) {
+int trieNode::search(trieNode *root, const string &str) {
+    // Return value code:
+    // -1 is the case where a string is neither a word nor part of a word
+    // 0 is the case where a string is not a word, but could be part of a word
+    // 1 is the case where a string is a complete word
+
     // Base case: An empty trie has been provided
     if (root == nullptr) {
-        return false;
+        return 0;
     }
 
     // Begin searching at the root
@@ -56,7 +61,7 @@ bool trieNode::search(trieNode *root, const string &str) {
 
         // The string is not in the trie if it hasn't been found and the path ends
         if (current == nullptr) {
-            return false;
+            return -1;
         }
     }
 
@@ -67,9 +72,9 @@ bool trieNode::search(trieNode *root, const string &str) {
 
 // getValue(): Returns the assigned value of the provided word
 // Inputs: The root node of the trie to search in, the word to get a value for
-static int getValue(trieNode *root, const string &str) {
-    // Base case: No word has been provided
-    if (root == nullptr) {
+int trieNode::getValue(trieNode *root, const string &str) {
+    // Base case: An empty trie or word has been provided
+    if (root == nullptr || str.empty()) {
         return 0;
     }
 

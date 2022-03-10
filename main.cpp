@@ -1,6 +1,10 @@
-/* Updated by Matthew Ding on 3/10/2022. */
+/*******************************************************************************
+ * Updated by Matthew Ding on 3/10/2022.
+ * Important note: output.txt MUST be emptied before every run of this program.
+ *******************************************************************************/
 
 #include "unionTrie.cpp"
+#include "mergeSort.cpp"
 using namespace std;
 
 void genPossibilities(trieNode *root, string input, int start, const string& addTo);
@@ -26,44 +30,73 @@ int main() {
     }
 
     // Open the file containing all possible original texts with white spaces
-    ifstream outputs;
+    fstream outputs;
     outputs.open("output.txt");
     string line;
-    if (outputs.is_open()) {
-        int mostLikelyRanking = 0;
-        string mostLikelyLine;
-        // Read each line to assess its rank
-        while (getline(outputs, line)) {
-            string word;
-            int lineValue = 0;
-            for (char i : line) {
-                // Any white space or punctuation indicates that the string is now a word
-                if (i == ' ' || i == '.' || i == ',' || i == '!' || i == '?') {
-                    // Add the value of the word to the total value of the line
-                    lineValue += trieNode::getValue(root, word);
-                    // Reset the string to begin filling with the next word
-                    word.clear();
-                } else {
-                    // Fill the string one character at a time
-                    word += i;
-                }
-            }
-            // Check if the line that has just been fully traversed and ranked is most
-            // likely to be the original document (i.e. higher rank)
-            if (lineValue > mostLikelyRanking) {
-                // Record the rank of the most likely line and the line itself
-                mostLikelyRanking = lineValue;
-                mostLikelyLine = line;
-            }
-        }
 
-        // Print out the most likely line and its rank
-        cout << "\nThe most likely possible output is:\n" << mostLikelyLine
-        <<"\nIt's total value is " << mostLikelyRanking << endl;
+    // Count the number of lines in the file to be sorted later
+    int count = 0;
+    if (outputs.is_open()) {
+        while (getline(outputs, line)) {
+            count++;
+        }
         outputs.close();
     } else {
+        // Kill the program if the file of possible original documents could not be opened
         cout << "The file of possible outputs to rank could not be opened.\n";
+        return 0;
     }
+
+    // Insert all the lines from the file into an array
+    outputs.open("output.txt");
+    string lines[count];
+    int i = 0;
+    while (getline(outputs, line)) {
+        lines[i] = line;
+        i++;
+    }
+    outputs.close();
+
+    // Read each line to assess its rank and insert rank to an int array
+    int values[count];
+    for (int j = 0; j < count; j++) {
+        string current = lines[j];
+        string word;
+        int lineValue = 0;
+        for (char k : current) {
+            // Any white space or punctuation indicates that the string is now a word
+            if (k == ' ' || k == '.' || k == ',' || k == '!' || k == '?') {
+                // Add the value of the word to the total value of the line
+                lineValue += trieNode::getValue(root, word);
+                // Reset the string to begin filling with the next word
+                word.clear();
+            } else {
+                // Fill the string one character at a time
+                word += k;
+            }
+        }
+        // After the line has been fully read and ranked, insert the rank to the value array
+        values[j] = lineValue;
+    }
+
+    // Use mergesort to sort the arrays from least likely to most likely
+    mergeSort(values, lines, 0, count - 1);
+
+    // Save the original documents to the output file from most likely to least likely
+    outputs.open("output.txt");
+    for (int l = count - 1; l >= 0; l--) {
+        outputs << "\nRank: " << values[l];
+        outputs << "\n\t" << lines[l] << "\n";
+    }
+
+    /*******************************************************************
+    // This can be uncommented to print the rankings to the command line
+    // Print out the original documents from most likely to least likely
+    for (int l = count - 1; l >= 0; l--) {
+        cout << "\nRank: " << values[l];
+        cout << "\n\t" << lines[l] << "\n";
+    }
+    *******************************************************************/
 }
 
 // genPossibilities(): Takes an input string without white spaces and parses it to valid words with white spaces

@@ -1,6 +1,8 @@
-/* Updated by Matthew Ding on 3/10/2022.
+/******************************************************************************************************
+ * Updated by Matthew Ding on 3/10/2022.
  * This implementation has been adapted from the implementation found from Techie Delight.
- * https://www.techiedelight.com/memory-efficient-trie-implementation-using-map-insert-search-delete/ */
+ * https://www.techiedelight.com/memory-efficient-trie-implementation-using-map-insert-search-delete/
+ ******************************************************************************************************/
 
 #include "trie.h"
 using namespace std;

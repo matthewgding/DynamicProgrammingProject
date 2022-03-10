@@ -1,6 +1,8 @@
-/* Updated by Matthew Ding on 3/10/2022.
+/*********************************************************************************************
+ * Updated by Matthew Ding on 3/10/2022.
  * This file provides the methods that are needed to create a trie of valid words with ranks.
- * This file replaces the functionality of unionDictionary.cpp */
+ * This file replaces the functionality of unionDictionary.cpp
+ *********************************************************************************************/
 
 #include <iostream>
 #include <fstream>
